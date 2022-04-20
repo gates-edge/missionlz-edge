@@ -3,19 +3,17 @@
 
 param name string
 param location string
-param localNetworkAddressPrefixes array = [
-  '10.80.0.0/16'
-]
-param remoteGatewayIpAddress string = '20.141.65.52'
+param remoteNetworkAddressPrefixes array
+param remoteGatewayPublicIpAddress string
 //param tags object = {}
 
-resource vnetGateway 'Microsoft.Network/localNetworkGateways@2021-05-01' = {
+resource localNetworkGateway 'Microsoft.Network/localNetworkGateways@2021-05-01' = {
   name: name
   location: location
   properties: {
     localNetworkAddressSpace: {
-      addressPrefixes: localNetworkAddressPrefixes
+      addressPrefixes: remoteNetworkAddressPrefixes
     }
-    gatewayIpAddress: remoteGatewayIpAddress
+    gatewayIpAddress: remoteGatewayPublicIpAddress
   }
 }

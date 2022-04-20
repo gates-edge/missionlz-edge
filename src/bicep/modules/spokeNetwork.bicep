@@ -3,18 +3,19 @@
 
 param location string = resourceGroup().location
 param tags object = {}
-//param firewallPrivateIPAddress string
 param virtualNetworkName string
 param virtualNetworkAddressPrefix string
 param networkSecurityGroupName string
 param networkSecurityGroupRules array
 param subnetName string
 param subnetAddressPrefix string
+param firewallPrivateIPAddress string = ''
 param routeTableName string = '${subnetName}-routetable'
 param routeTableRouteName string = 'default_route'
 param routeTableRouteAddressPrefix string = '0.0.0.0/0'
-//param routeTableRouteNextHopIpAddress string = firewallPrivateIPAddress
-param routeTableRouteNextHopType string = 'VirtualNetworkGateway'
+param routeTableRouteNextHopType string
+
+var routeNextHopIpAddress = ((toLower(routeTableRouteNextHopType) == 'virtualappliance') && (!empty(firewallPrivateIPAddress))) ? firewallPrivateIPAddress : ''
 
 module networkSecurityGroup './networkSecurityGroup.bicep' = {
   name: 'networkSecurityGroup'
@@ -28,7 +29,7 @@ module networkSecurityGroup './networkSecurityGroup.bicep' = {
 }
 
 module routeTable './routeTable.bicep' = {
-  name: 'routeTable'
+  name: 'routeTable-NVA'
   params: {
     name: routeTableName
     location: location
@@ -36,7 +37,7 @@ module routeTable './routeTable.bicep' = {
 
     routeName: routeTableRouteName
     routeAddressPrefix: routeTableRouteAddressPrefix
-    //routeNextHopIpAddress: routeTableRouteNextHopIpAddress
+    routeNextHopIpAddress: routeNextHopIpAddress
     routeNextHopType: routeTableRouteNextHopType
   }
 }
