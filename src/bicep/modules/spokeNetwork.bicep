@@ -3,7 +3,7 @@
 
 param location string = resourceGroup().location
 param tags object = {}
-param firewallPrivateIPAddress string
+//param firewallPrivateIPAddress string
 param virtualNetworkName string
 param virtualNetworkAddressPrefix string
 param networkSecurityGroupName string
@@ -13,8 +13,8 @@ param subnetAddressPrefix string
 param routeTableName string = '${subnetName}-routetable'
 param routeTableRouteName string = 'default_route'
 param routeTableRouteAddressPrefix string = '0.0.0.0/0'
-param routeTableRouteNextHopIpAddress string = firewallPrivateIPAddress
-param routeTableRouteNextHopType string = 'VirtualAppliance'
+//param routeTableRouteNextHopIpAddress string = firewallPrivateIPAddress
+param routeTableRouteNextHopType string = 'VirtualNetworkGateway'
 
 module networkSecurityGroup './networkSecurityGroup.bicep' = {
   name: 'networkSecurityGroup'
@@ -23,7 +23,7 @@ module networkSecurityGroup './networkSecurityGroup.bicep' = {
     location: location
     tags: tags
 
-    securityRules: networkSecurityGroupRules    
+    securityRules: networkSecurityGroupRules
   }
 }
 
@@ -36,7 +36,7 @@ module routeTable './routeTable.bicep' = {
 
     routeName: routeTableRouteName
     routeAddressPrefix: routeTableRouteAddressPrefix
-    routeNextHopIpAddress: routeTableRouteNextHopIpAddress
+    //routeNextHopIpAddress: routeTableRouteNextHopIpAddress
     routeNextHopType: routeTableRouteNextHopType
   }
 }
@@ -62,7 +62,6 @@ module virtualNetwork './virtualNetwork.bicep' = {
         }
       }
     ]
-   
   }
 }
 
@@ -73,4 +72,4 @@ output subnetAddressPrefix string = virtualNetwork.outputs.subnets[0].properties
 output subnetResourceId string = virtualNetwork.outputs.subnets[0].id
 output networkSecurityGroupName string = networkSecurityGroup.outputs.name
 output networkSecurityGroupResourceGroupName string = resourceGroup().name
-output networkSecurityGroupResourceId string =  networkSecurityGroup.outputs.id
+output networkSecurityGroupResourceId string = networkSecurityGroup.outputs.id

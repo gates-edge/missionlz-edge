@@ -6,7 +6,7 @@ param location string
 param tags object = {}
 param routeName string
 param routeAddressPrefix string
-param routeNextHopIpAddress string
+//param routeNextHopIpAddress string
 param routeNextHopType string
 
 resource routeTable 'Microsoft.Network/routeTables@2018-11-01' = {
@@ -19,7 +19,7 @@ resource routeTable 'Microsoft.Network/routeTables@2018-11-01' = {
         name: routeName
         properties: {
           addressPrefix: routeAddressPrefix
-          nextHopIpAddress: routeNextHopIpAddress
+          //nextHopIpAddress: routeNextHopIpAddress
           nextHopType: routeNextHopType
         }
       }
