@@ -88,12 +88,12 @@ param sharedServicesSubnetAddressPrefix string = '10.93.0.0/24'
 // LOCAL NETWORK GATEWAY (TO SIDECAR VPN GATEWAY)
 
 @description('The CIDR Subnet Address Prefixes for the Sidecar network that will be routable from the Hub Virtual Network Gateway')
-param sidecarLocalNetworkAddressPrefixes array = [
-  '10.80.0.0/16'
-]
+param sidecarLocalNetworkAddressPrefixes array //= [
+//  '10.80.0.0/16'
+//]
 
 @description('The public IP Address for the Sidecar Virtual Network Gateway')
-param sidecarGatewayIpAddress string = '20.141.65.52'
+param sidecarGatewayIpAddress string
 //[--end-new-code--]
 
 // FIREWALL PARAMETERS
