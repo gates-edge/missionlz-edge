@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-param location string = resourceGroup().location
+param location string
 param tags object = {}
 param virtualNetworkName string
 param virtualNetworkAddressPrefix string
@@ -29,7 +29,7 @@ module networkSecurityGroup './networkSecurityGroup.bicep' = {
 }
 
 module routeTable './routeTable.bicep' = {
-  name: 'routeTable-NVA'
+  name: 'routeTable'
   params: {
     name: routeTableName
     location: location

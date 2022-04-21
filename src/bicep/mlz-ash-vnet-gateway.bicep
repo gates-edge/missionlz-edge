@@ -221,7 +221,7 @@ var hubSubnets = [
 // VIRTUAL NETWORK GATEWAY PARAMETERS
 
 var vnetGatewayName = replace(vnetGatewayNamingConvention, nameToken, 'hub')
-var vnetGatewayPublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'vgw-hub')
+var vnetGatewayPublicIPAddressName = replace(publicIpAddressNamingConvention, nameToken, 'hub-vgw')
 
 // LOCAL GATEWAY PARAMETERS (TO REMOTE VPN GATEWAY)
 
@@ -461,7 +461,6 @@ module hubVpnGateway './modules/virtualNetworkGateway.bicep' = {
     virtualNetworkName: hubVirtualNetworkName
     privateIpAllocationMethod: 'Dynamic'
     publicIPAddressId: hubVnGatewayPublicIp.outputs.id
-    //param tags object = {}
     gatewaySku: vnGatewaySku
   }
   dependsOn: [
@@ -471,9 +470,9 @@ module hubVpnGateway './modules/virtualNetworkGateway.bicep' = {
 
 // CREATE LOCAL NETWORK GATEWAY (TO REMOTE VPN GATEWAY)
 
-module localGatewayToSC './modules/localNetworkGateway.bicep' = {
+module localNetworkGateway './modules/localNetworkGateway.bicep' = {
   scope: resourceGroup(hubResourceGroupName)
-  name: 'deploy-local-gateway-${deploymentNameSuffix}'
+  name: 'deploy-local-network-gateway-${deploymentNameSuffix}'
   params: {
     name: remoteLocalNetworkGatewayName
     location: location
