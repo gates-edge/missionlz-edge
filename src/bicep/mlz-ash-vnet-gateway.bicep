@@ -43,8 +43,11 @@ param tags object = {}
 @description('The CIDR Virtual Network Address Prefix for the Hub Virtual Network. Default value = 10.90.0.0/16')
 param hubVirtualNetworkAddressPrefix string = '10.90.0.0/16'
 
-@description('The CIDR Subnet Address Prefix for the Hub VPN Gateway subnet. It must be in the Hub Virtual Network space. Default value = 10.90.250.0/24')
-param gatewaySubnetAddressPrefix string = '10.90.250.0/24'
+@description('The CIDR Subnet Address Prefix for the Hub Default subnet. It must be in the Hub Virtual Network space. Default value = 10.90.250.0/25')
+param hubDefaultSubnetAddressPrefix string = '10.90.250.0/25'
+
+@description('The CIDR Subnet Address Prefix for the Hub VPN Gateway subnet. It must be in the Hub Virtual Network space. Default value = 10.90.250.128/25')
+param gatewaySubnetAddressPrefix string = '10.90.250.128/25'
 
 @description('The CIDR Virtual Network Address Prefix for the Identity Virtual Network. Default value = 10.91.0.0/16')
 param identityVirtualNetworkAddressPrefix string = '10.91.0.0/16'
@@ -172,12 +175,18 @@ var hubResourceGroupName = replace(resourceGroupNamingConvention, nameToken, hub
 var hubVirtualNetworkName = replace(virtualNetworkNamingConvention, nameToken, hubName)
 var hubNetworkSecurityGroupName = replace(networkSecurityGroupNamingConvention, nameToken, hubName)
 var gatewaySubnetName = 'GatewaySubnet' //Note: this subnet must be named 'GatewaySubnet'
-
+var hubDefaultSubnetName = 'DefaultSubnet' //TOTO: this is temporary, while subnet communication/routing isn't working from spokes
 var hubSubnets = [
   {
     name: gatewaySubnetName
     properties: {
       addressPrefix: gatewaySubnetAddressPrefix
+    }
+  }
+  {
+    name: hubDefaultSubnetName
+    properties: {
+      addressPrefix: hubDefaultSubnetAddressPrefix
     }
   }
 ]

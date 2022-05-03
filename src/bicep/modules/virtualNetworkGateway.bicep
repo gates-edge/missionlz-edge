@@ -33,10 +33,7 @@ resource vnetGateway 'Microsoft.Network/virtualNetworkGateways@2020-06-01' = {
       tier: gatewaySku
     }
     vpnType: 'RouteBased'
-    enableBgp: true
-    bgpSettings: {
-      asn: 65010
-    }
+    enableBgp: false
   }
 }
 
